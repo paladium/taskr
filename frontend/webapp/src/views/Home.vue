@@ -37,16 +37,42 @@
 import { Component, Vue } from "vue-property-decorator";
 import Task from "@/components/Task.vue";
 import AddTask from "@/components/AddTask.vue";
+import { TaskrStore } from "../store";
+import { Task as TaskModel } from "../models/task";
+import {Action} from 'vuex-class'
 
 @Component({
   components: { Task, AddTask }
 })
 export default class Home extends Vue {
 
-  openAddTaskModal()
-  {
-    this.$store.commit('setAddTaskModalOpened', true);
+  @Action('tasks')
+  loadTasks!: () => Promise<any>;
+
+  openAddTaskModal() {
+    this.$store.commit("setAddTaskModalOpened", true);
+    this.$store.commit('newTask');
   }
 
+  get tasks(): Array<TaskModel> {
+    return (this.$store.state as TaskrStore).tasks;
+  }
+
+  get backlog() {
+    return this.tasks.filter(task => task.section == "backlog");
+  }
+  get dev() {
+    return this.tasks.filter(task => task.section == "dev");
+  }
+  get progress() {
+    return this.tasks.filter(task => task.section == "progress");
+  }
+  get done() {
+    return this.tasks.filter(task => task.section == "done");
+  }
+  moveTask(task: Task)
+  {
+    this.$store.dispatch('moveTask', task);
+  }
 }
 </script>
