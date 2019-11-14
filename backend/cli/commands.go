@@ -25,7 +25,7 @@ func ConfigureCommands(app *cli.App) {
 				storage.GetStorage().SaveTask(&models.Task{
 					Name:     taskName,
 					Deadline: deadline,
-				})
+				}, models.BACKLOG)
 				fmt.Println("Task added succesfully 🚀")
 			},
 		},
@@ -40,23 +40,23 @@ func ConfigureCommands(app *cli.App) {
 				section := c.String("section")
 				if section == "" {
 					testBoard := &models.TaskBoard{
-						Backlog: models.TaskSection{Section: "Backlog", Tasks: []models.Task{
+						Backlog: models.TaskSection{Tasks: []models.Task{
 							models.Task{Name: "Work on this", Deadline: "tomorrow"},
 						}},
-						Dev: models.TaskSection{Section: "Selected for development", Tasks: []models.Task{
-							models.Task{Name: "Work on this", Deadline: "tomorrow"},
-							models.Task{Name: "Work on this", Deadline: "tomorrow"},
-							models.Task{Name: "Work on this", Deadline: "tomorrow"},
-						}},
-						Progress: models.TaskSection{Section: "In progress", Tasks: []models.Task{
-							models.Task{Name: "Work on this", Deadline: "tomorrow"},
-							models.Task{Name: "Work on this", Deadline: "tomorrow"},
-							models.Task{Name: "Work on this", Deadline: "tomorrow"},
+						Dev: models.TaskSection{Tasks: []models.Task{
 							models.Task{Name: "Work on this", Deadline: "tomorrow"},
 							models.Task{Name: "Work on this", Deadline: "tomorrow"},
 							models.Task{Name: "Work on this", Deadline: "tomorrow"},
 						}},
-						Done: models.TaskSection{Section: "Done", Tasks: []models.Task{
+						Progress: models.TaskSection{Tasks: []models.Task{
+							models.Task{Name: "Work on this", Deadline: "tomorrow"},
+							models.Task{Name: "Work on this", Deadline: "tomorrow"},
+							models.Task{Name: "Work on this", Deadline: "tomorrow"},
+							models.Task{Name: "Work on this", Deadline: "tomorrow"},
+							models.Task{Name: "Work on this", Deadline: "tomorrow"},
+							models.Task{Name: "Work on this", Deadline: "tomorrow"},
+						}},
+						Done: models.TaskSection{Tasks: []models.Task{
 							models.Task{Name: "Work on this", Deadline: "tomorrow"},
 							models.Task{Name: "Work on this", Deadline: "tomorrow"},
 							models.Task{Name: "Work on this", Deadline: "tomorrow"},

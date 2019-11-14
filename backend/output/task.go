@@ -43,7 +43,7 @@ func Board(board *models.TaskBoard) {
 	t := table.NewWriter()
 	t.SetOutputMirror(os.Stdout)
 	t.SetStyle(table.StyleColoredMagentaWhiteOnBlack)
-	t.AppendHeader(table.Row{board.Backlog.Section, board.Dev.Section, board.Progress.Section, board.Done.Section})
+	t.AppendHeader(table.Row{"Backlog", "Selected for development", "In progress", "Done"})
 	tableGenerator := appendTasks(board, t)
 	tableGenerator(board.Backlog)
 	tableGenerator(board.Dev)

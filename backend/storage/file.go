@@ -1,6 +1,10 @@
 package storage
 
 import (
+	"encoding/json"
+	"io/ioutil"
+	"log"
+	"os"
 	"taskr/models"
 )
 
@@ -14,9 +18,31 @@ func Init() {
 	storage = new(TaskStorage)
 }
 
-// SaveTask saves a new task to the needed section
-func (storage *TaskStorage) SaveTask(task *models.Task) {
+func getFileLocation() string {
+	home, _ := os.UserHomeDir()
+	return home + "/" + ".taskr.json"
+}
 
+// SaveTask saves a new task to the needed section
+func (storage *TaskStorage) SaveTask(task *models.Task, section string) {
+	file, err := os.OpenFile(getFileLocation(), os.O_CREATE|os.O_RDONLY, 0666)
+	defer file.Close()
+	if err != nil {
+		log.Fatal("Cannot create or open the file")
+	}
+	byteValue, _ := ioutil.ReadAll(file)
+	var board models.TaskBoard
+	json.Unmarshal(byteValue, &board)
+	if section == models.BACKLOG {
+		board.Backlog.Tasks = append(board.Backlog.Tasks, *task)
+	}
+	storage.SaveBoard(&board)
+}
+
+// SaveBoard saves the new board to the file
+func (storage *TaskStorage) SaveBoard(board *models.TaskBoard) {
+	file, _ := json.MarshalIndent(board, "", " ")
+	ioutil.WriteFile(getFileLocation(), file, 0666)
 }
 
 // GetStorage returns the current task storage

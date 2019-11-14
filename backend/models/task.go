@@ -16,20 +16,19 @@ type section string
 
 // Task model
 type Task struct {
-	Name     string
-	Deadline string
+	Name     string `json:"name" binding:"required"`
+	Deadline string `json:"deadline"`
 }
 
 // TaskSection - a single section of tasks
 type TaskSection struct {
-	Section section
-	Tasks   []Task
+	Tasks []Task `json:"tasks"`
 }
 
 // TaskBoard a single board of tasks
 type TaskBoard struct {
-	Backlog  TaskSection
-	Dev      TaskSection
-	Progress TaskSection
-	Done     TaskSection
+	Backlog  TaskSection `json:"backlog"`
+	Dev      TaskSection `json:"dev"`
+	Progress TaskSection `json:"progress"`
+	Done     TaskSection `json:"done"`
 }
