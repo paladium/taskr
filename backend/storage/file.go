@@ -2,6 +2,7 @@ package storage
 
 import (
 	"encoding/json"
+	"fmt"
 	"io/ioutil"
 	"log"
 	"math/rand"
@@ -41,11 +42,10 @@ func (storage *TaskStorage) GetBoard() *models.TaskBoard {
 }
 
 // SaveTask saves a new task to the needed section
-func (storage *TaskStorage) SaveTask(task *models.Task, section string) {
+func (storage *TaskStorage) SaveTask(task *models.Task) {
 	board := storage.GetBoard()
-	if section == models.BACKLOG {
-		board.Backlog.Tasks = append(board.Backlog.Tasks, *task)
-	}
+	task.Section = models.BACKLOG
+	board.Tasks = append(board.Tasks, *task)
 	storage.SaveBoard(board)
 }
 
@@ -55,9 +55,23 @@ func (storage *TaskStorage) SaveBoard(board *models.TaskBoard) {
 	ioutil.WriteFile(getFileLocation(), file, 0666)
 }
 
-func (storage *TaskStorage) MoveTask(task string, section string) {
+// MoveTask moves task further in the section
+func (storage *TaskStorage) MoveTask(task string) {
 	board := storage.GetBoard()
-	// currentSection
+	taskIndex := board.FindTask(task)
+	if taskIndex == -1 {
+		fmt.Printf("Task cannot be found '%s' 😢\n", task)
+	}
+	currentTask := &board.Tasks[board.FindTask(task)]
+	switch currentTask.Section {
+	case models.BACKLOG:
+		currentTask.Section = models.DEV
+	case models.DEV:
+		currentTask.Section = models.PROGRESS
+	case models.PROGRESS:
+		currentTask.Section = models.DONE
+	}
+	storage.SaveBoard(board)
 }
 
 // GetStorage returns the current task storage

@@ -9,8 +9,8 @@ import (
 )
 
 func getTaskOrEmpty(section models.TaskSection, index int) *models.Task {
-	if len(section.Tasks) > index {
-		return &section.Tasks[index]
+	if len(section) > index {
+		return &section[index]
 	}
 	return nil
 }
@@ -31,8 +31,8 @@ func getTaskSlice(sections []models.TaskSection, index int) table.Row {
 func appendTasks(board *models.TaskBoard, t table.Writer) func(models.TaskSection) {
 	var i = 0
 	return func(section models.TaskSection) {
-		for i < len(section.Tasks) {
-			slice := getTaskSlice([]models.TaskSection{board.Backlog, board.Dev, board.Progress, board.Done}, i)
+		for i < len(section) {
+			slice := getTaskSlice([]models.TaskSection{board.Backlog(), board.Dev(), board.Progress(), board.Done()}, i)
 			t.AppendRow(slice)
 			i++
 		}
@@ -46,9 +46,9 @@ func Board(board *models.TaskBoard) {
 	t.SetStyle(table.StyleColoredMagentaWhiteOnBlack)
 	t.AppendHeader(table.Row{"Backlog", "Selected for development", "In progress", "Done"})
 	tableGenerator := appendTasks(board, t)
-	tableGenerator(board.Backlog)
-	tableGenerator(board.Dev)
-	tableGenerator(board.Progress)
-	tableGenerator(board.Done)
+	tableGenerator(board.Backlog())
+	tableGenerator(board.Dev())
+	tableGenerator(board.Progress())
+	tableGenerator(board.Done())
 	t.Render()
 }
