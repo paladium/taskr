@@ -4,8 +4,10 @@ import (
 	"encoding/json"
 	"io/ioutil"
 	"log"
+	"math/rand"
 	"os"
 	"taskr/models"
+	"time"
 )
 
 // TaskStorage for saving and retrieving tasks
@@ -16,6 +18,8 @@ var storage *TaskStorage
 // Init file-based storage
 func Init() {
 	storage = new(TaskStorage)
+	//Setup random generator
+	rand.Seed(time.Now().UnixNano())
 }
 
 func getFileLocation() string {

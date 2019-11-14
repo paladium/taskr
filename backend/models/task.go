@@ -16,6 +16,7 @@ type section string
 
 // Task model
 type Task struct {
+	ID       string `json:"id" binding:"required"`
 	Name     string `json:"name" binding:"required"`
 	Deadline string `json:"deadline"`
 }
