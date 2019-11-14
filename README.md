@@ -6,6 +6,6 @@ The simplest to install and use agile board (CLI and Web)
 
 Just run
 ```
-./taskr -m "Working on a new project"
+./taskr -t "Working on a new project"
 ```
 To add new task to backlog
