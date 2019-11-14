@@ -1,6 +1,7 @@
 package output
 
 import (
+	"fmt"
 	"os"
 	"taskr/models"
 
@@ -21,7 +22,7 @@ func getTaskSlice(sections []models.TaskSection, index int) table.Row {
 		if task == nil {
 			slice = append(slice, "")
 		} else {
-			slice = append(slice, task.Name)
+			slice = append(slice, fmt.Sprintf("%s\n---%s---", task.ID, task.Name))
 		}
 	}
 	return slice

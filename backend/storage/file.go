@@ -27,8 +27,8 @@ func getFileLocation() string {
 	return home + "/" + ".taskr.json"
 }
 
-// SaveTask saves a new task to the needed section
-func (storage *TaskStorage) SaveTask(task *models.Task, section string) {
+// GetBoard reads the file and returns the board
+func (storage *TaskStorage) GetBoard() *models.TaskBoard {
 	file, err := os.OpenFile(getFileLocation(), os.O_CREATE|os.O_RDONLY, 0666)
 	defer file.Close()
 	if err != nil {
@@ -37,16 +37,27 @@ func (storage *TaskStorage) SaveTask(task *models.Task, section string) {
 	byteValue, _ := ioutil.ReadAll(file)
 	var board models.TaskBoard
 	json.Unmarshal(byteValue, &board)
+	return &board
+}
+
+// SaveTask saves a new task to the needed section
+func (storage *TaskStorage) SaveTask(task *models.Task, section string) {
+	board := storage.GetBoard()
 	if section == models.BACKLOG {
 		board.Backlog.Tasks = append(board.Backlog.Tasks, *task)
 	}
-	storage.SaveBoard(&board)
+	storage.SaveBoard(board)
 }
 
 // SaveBoard saves the new board to the file
 func (storage *TaskStorage) SaveBoard(board *models.TaskBoard) {
 	file, _ := json.MarshalIndent(board, "", " ")
 	ioutil.WriteFile(getFileLocation(), file, 0666)
+}
+
+func (storage *TaskStorage) MoveTask(task string, section string) {
+	board := storage.GetBoard()
+	// currentSection
 }
 
 // GetStorage returns the current task storage

@@ -41,32 +41,24 @@ func ConfigureCommands(app *cli.App) {
 			Action: func(c *cli.Context) {
 				section := c.String("section")
 				if section == "" {
-					testBoard := &models.TaskBoard{
-						Backlog: models.TaskSection{Tasks: []models.Task{
-							models.Task{Name: "Work on this", Deadline: "tomorrow"},
-						}},
-						Dev: models.TaskSection{Tasks: []models.Task{
-							models.Task{Name: "Work on this", Deadline: "tomorrow"},
-							models.Task{Name: "Work on this", Deadline: "tomorrow"},
-							models.Task{Name: "Work on this", Deadline: "tomorrow"},
-						}},
-						Progress: models.TaskSection{Tasks: []models.Task{
-							models.Task{Name: "Work on this", Deadline: "tomorrow"},
-							models.Task{Name: "Work on this", Deadline: "tomorrow"},
-							models.Task{Name: "Work on this", Deadline: "tomorrow"},
-							models.Task{Name: "Work on this", Deadline: "tomorrow"},
-							models.Task{Name: "Work on this", Deadline: "tomorrow"},
-							models.Task{Name: "Work on this", Deadline: "tomorrow"},
-						}},
-						Done: models.TaskSection{Tasks: []models.Task{
-							models.Task{Name: "Work on this", Deadline: "tomorrow"},
-							models.Task{Name: "Work on this", Deadline: "tomorrow"},
-							models.Task{Name: "Work on this", Deadline: "tomorrow"},
-						}},
-					}
+					testBoard := storage.GetStorage().GetBoard()
 					output.Board(testBoard)
 				}
 			},
 		},
+		{
+			Name: "move",
+			Aliases: []string{"mv"},
+			Usage: "Move the task along the board",
+			Flags: []cli.Flag{
+				cli.StringFlag{Name: "task,t", Required: true},
+				cli.StringFlag{Name: "section,s", Required:false}
+			},
+			Action: func(c *cli.Context){
+				section := c.String("section")
+				task := c.String("task")
+				storage.GetStorage().MoveTask(task, section)
+			}
+		}
 	}
 }
