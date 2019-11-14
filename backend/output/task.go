@@ -22,7 +22,7 @@ func getTaskSlice(sections []models.TaskSection, index int) table.Row {
 		if task == nil {
 			slice = append(slice, "")
 		} else {
-			slice = append(slice, fmt.Sprintf("%s\n---%s---", task.ID, task.Name))
+			slice = append(slice, fmt.Sprintf("---%s---\n%s", task.ID, task.Name))
 		}
 	}
 	return slice

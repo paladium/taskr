@@ -60,7 +60,8 @@ func (storage *TaskStorage) MoveTask(task string) {
 	board := storage.GetBoard()
 	taskIndex := board.FindTask(task)
 	if taskIndex == -1 {
-		fmt.Printf("Task cannot be found '%s' 😢\n", task)
+		fmt.Printf("Task '%s' cannot be found 😢\n", task)
+		return
 	}
 	currentTask := &board.Tasks[board.FindTask(task)]
 	switch currentTask.Section {
