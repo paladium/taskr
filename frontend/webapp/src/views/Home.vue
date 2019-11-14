@@ -14,6 +14,9 @@
           <task
             :task="{'name': 'cool', 'id': 'nice', 'section': 'backlog', 'deadline': 'tomorrow'}"
           ></task>
+          <task
+            :task="{'name': 'cool', 'id': 'nice', 'section': 'backlog', 'deadline': 'tomorrow'}"
+          ></task>
         </div>
         <div class="column column-25">
           <h4>Selected for development</h4>

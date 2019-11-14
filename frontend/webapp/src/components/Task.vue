@@ -1,9 +1,14 @@
 <template>
   <div class="task">
-      <p>
-        📄 {{task.name}}
-      </p>
-      <button class="button button-small button-black" v-if="task.deadline">{{task.deadline}}</button>
+    <p>📄 {{task.name}}</p>
+    <div class="row">
+      <div class="column-50">
+        <button class="button button-small button-outline" v-if="task.deadline">{{task.deadline}}</button>
+      </div>
+      <div class="column column-offset-25">
+        <button class="button button-small button-black">Mv</button>
+      </div>
+    </div>
   </div>
 </template>
 <script lang="ts">
@@ -17,8 +22,12 @@ export default class Task extends Vue {
 </script>
 <style lang="css" scoped>
 .task {
-    border: 1px solid #efdcdc;
-    border-radius: 5px;
-    padding: 10px;
+  border: 1px solid #efdcdc;
+  border-radius: 5px;
+  padding: 10px;
+  margin-top: 10px;
+}
+.row{
+  padding-left: 5px;
 }
 </style>
