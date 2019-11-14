@@ -1,15 +1,21 @@
 import Vue from 'vue';
-import Vuex from 'vuex';
+import Vuex, { StoreOptions } from 'vuex';
 
 Vue.use(Vuex);
 
-export default new Vuex.Store({
+export interface TaskrStore {
+  addTaskModalOpened: boolean;
+}
+
+const store: StoreOptions<TaskrStore> = {
   state: {
+    addTaskModalOpened: false
   },
   mutations: {
-  },
-  actions: {
-  },
-  modules: {
-  },
-});
+    setAddTaskModalOpened(state, value: boolean){
+      state.addTaskModalOpened = value;
+    }
+  }
+};
+
+export default new Vuex.Store(store);

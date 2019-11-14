@@ -5,7 +5,7 @@
       <div class="row">
         <div class="column"></div>
         <div class="column column-offset-75">
-          <button class="button">Add task</button>
+          <button class="button" @click="openAddTaskModal()">Add task</button>
         </div>
       </div>
       <div class="row">
@@ -29,15 +29,24 @@
         </div>
       </div>
     </div>
+    <add-task></add-task>
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import Task from "@/components/Task.vue";
+import AddTask from "@/components/AddTask.vue";
 
 @Component({
-  components: { Task }
+  components: { Task, AddTask }
 })
-export default class Home extends Vue {}
+export default class Home extends Vue {
+
+  openAddTaskModal()
+  {
+    this.$store.commit('setAddTaskModalOpened', true);
+  }
+
+}
 </script>

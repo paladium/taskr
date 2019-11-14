@@ -39,4 +39,25 @@ export default class App extends Vue {}
   background: #000;
   border-color: transparent;
 }
+
+.modal{
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: black;
+  background-color: rgba(0, 0, 0, 0.4);
+
+  .content{
+    background-color: #fefefe;
+    margin: 15% auto;
+    padding: 20px;
+    border-radius: 5px;
+    width: 50%;
+    z-index: 10;
+  }
+}
 </style>
