@@ -2,6 +2,8 @@ package cli
 
 import (
 	"fmt"
+	"log"
+	"net/http"
 	"taskr/config"
 	"taskr/models"
 	"taskr/output"
@@ -71,6 +73,13 @@ func ConfigureCommands(app *cli.App) {
 			Usage:   "Launches the server and ui for visual task managment",
 			Action: func(c *cli.Context) {
 				config.Init("dev")
+				//Start the ui as the server
+				go func() {
+					box := config.GetBox()
+					http.Handle("/", http.FileServer(box))
+					log.Printf("Started the ui server at %s\n", config.GetConfig().GetString("server.ui"))
+					http.ListenAndServe(config.GetConfig().GetString("server.ui"), nil)
+				}()
 				server.Init()
 			},
 		},
