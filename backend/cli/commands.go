@@ -77,7 +77,7 @@ func ConfigureCommands(app *cli.App) {
 				go func() {
 					box := config.GetBox()
 					http.Handle("/", http.FileServer(box))
-					log.Printf("Started the ui server at %s\n", config.GetConfig().GetString("server.ui"))
+					log.Printf("Started the ui server at http://localhost%s\n", config.GetConfig().GetString("server.ui"))
 					http.ListenAndServe(config.GetConfig().GetString("server.ui"), nil)
 				}()
 				server.Init()
