@@ -24,7 +24,7 @@ export default class AddTask extends Vue {
   }
   addTask() {
     this.closeModal();
-    this.$store.dispatch("addTask", this.task);
+    this.$emit('added');
   }
 }
 </script>

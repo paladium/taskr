@@ -5,19 +5,24 @@
       <div class="column-50">
         <button class="button button-small button-outline" v-if="task.deadline">{{task.deadline}}</button>
       </div>
-      <div class="column column-offset-25">
-        <button class="button button-small button-black">Mv</button>
+      <div class="column">
+        <button class="button button-small button-black" v-if="task.section != 'done'" @click="moveTask">Mv</button>
       </div>
     </div>
   </div>
 </template>
 <script lang="ts">
 import { Vue, Component, Prop } from "vue-property-decorator";
+import { TaskModel } from "../models/task";
 
 @Component
 export default class Task extends Vue {
   @Prop()
-  task!: Task;
+  task!: TaskModel;
+
+  moveTask(){
+    this.$emit('moved', this.task);
+  }
 }
 </script>
 <style lang="css" scoped>

@@ -41,8 +41,8 @@ func (storage *TaskStorage) GetBoard() *models.TaskBoard {
 	return &board
 }
 
-// SaveTask saves a new task to the needed section
-func (storage *TaskStorage) SaveTask(task *models.Task) {
+// AddTask saves a new task to the needed section
+func (storage *TaskStorage) AddTask(task *models.Task) {
 	board := storage.GetBoard()
 	task.Section = models.BACKLOG
 	board.Tasks = append(board.Tasks, *task)

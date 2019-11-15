@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import Vuex, { StoreOptions } from 'vuex';
-import { Task } from '@/models/task';
+import { TaskModel } from '@/models/task';
 import { container } from 'tsyringe';
 import TaskService from '@/services/TaskService';
 
@@ -8,8 +8,8 @@ Vue.use(Vuex);
 
 export interface TaskrStore {
   addTaskModalOpened: boolean;
-  tasks: Array<Task>;
-  newTask: Task | null;
+  tasks: Array<TaskModel>;
+  newTask: TaskModel | null;
 }
 
 const store: StoreOptions<TaskrStore> = {
@@ -22,11 +22,11 @@ const store: StoreOptions<TaskrStore> = {
     setAddTaskModalOpened(state, value: boolean) {
       state.addTaskModalOpened = value;
     },
-    setTasks(state, tasks: Array<Task>) {
+    setTasks(state, tasks: Array<TaskModel>) {
       state.tasks = tasks;
     },
     newTask(state){
-      state.newTask = <Task>{
+      state.newTask = <TaskModel>{
         id: "",
         name: "",
         section: "backlog"
@@ -37,10 +37,10 @@ const store: StoreOptions<TaskrStore> = {
     tasks({commit}) {
       return container.resolve(TaskService).tasks().then(tasks => { commit('setTasks', tasks); });
     },
-    moveTask({commit}, task: Task) {
+    moveTask({commit}, task: TaskModel) {
       return container.resolve(TaskService).moveTask(task);
     },
-    addTask({commit}, task: Task) {
+    addTask({commit}, task: TaskModel) {
       return container.resolve(TaskService).addTask(task);
     }
   }

@@ -2,8 +2,10 @@ package cli
 
 import (
 	"fmt"
+	"taskr/config"
 	"taskr/models"
 	"taskr/output"
+	"taskr/server"
 	"taskr/storage"
 
 	"github.com/urfave/cli"
@@ -23,7 +25,7 @@ func ConfigureCommands(app *cli.App) {
 			Action: func(c *cli.Context) {
 				taskName := c.String("task")
 				deadline := c.String("deadline")
-				storage.GetStorage().SaveTask(&models.Task{
+				storage.GetStorage().AddTask(&models.Task{
 					Name:     taskName,
 					Deadline: deadline,
 					ID:       storage.GetRandomName(0),
@@ -58,6 +60,15 @@ func ConfigureCommands(app *cli.App) {
 				storage.GetStorage().MoveTask(task)
 				board := storage.GetStorage().GetBoard()
 				output.Board(board)
+			},
+		},
+		{
+			Name:    "ui",
+			Aliases: []string{"u"},
+			Usage:   "Launches the server and ui for visual task managment",
+			Action: func(c *cli.Context) {
+				config.Init("dev")
+				server.Init()
 			},
 		},
 	}

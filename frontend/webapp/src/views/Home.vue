@@ -11,25 +11,23 @@
       <div class="row">
         <div class="column column-25">
           <h4>Backlog</h4>
-          <task
-            :task="{'name': 'cool', 'id': 'nice', 'section': 'backlog', 'deadline': 'tomorrow'}"
-          ></task>
-          <task
-            :task="{'name': 'cool', 'id': 'nice', 'section': 'backlog', 'deadline': 'tomorrow'}"
-          ></task>
+          <task v-for="task in backlog" :key="task.id" :task="task" @moved="moveTask"></task>
         </div>
         <div class="column column-25">
           <h4>Selected for development</h4>
+          <task v-for="task in dev" :key="task.id" :task="task" @moved="moveTask"></task>
         </div>
         <div class="column column-25">
           <h4>In progress</h4>
+          <task v-for="task in progress" :key="task.id" :task="task" @moved="moveTask"></task>
         </div>
         <div class="column column-25">
           <h4>Done</h4>
+          <task v-for="task in done" :key="task.id" :task="task" @moved="moveTask"></task>
         </div>
       </div>
     </div>
-    <add-task></add-task>
+    <add-task @added="addTask"></add-task>
   </div>
 </template>
 
@@ -38,20 +36,19 @@ import { Component, Vue } from "vue-property-decorator";
 import Task from "@/components/Task.vue";
 import AddTask from "@/components/AddTask.vue";
 import { TaskrStore } from "../store";
-import { Task as TaskModel } from "../models/task";
-import {Action} from 'vuex-class'
+import { TaskModel } from "../models/task";
+import { Action } from "vuex-class";
 
 @Component({
   components: { Task, AddTask }
 })
 export default class Home extends Vue {
-
-  @Action('tasks')
+  @Action("tasks")
   loadTasks!: () => Promise<any>;
 
   openAddTaskModal() {
     this.$store.commit("setAddTaskModalOpened", true);
-    this.$store.commit('newTask');
+    this.$store.commit("newTask");
   }
 
   get tasks(): Array<TaskModel> {
@@ -70,9 +67,19 @@ export default class Home extends Vue {
   get done() {
     return this.tasks.filter(task => task.section == "done");
   }
-  moveTask(task: Task)
+  moveTask(task: Task) {
+    this.$store.dispatch("moveTask", task).then(() => {
+      this.$store.dispatch("tasks");
+    });
+  }
+  mounted() {
+    this.$store.dispatch("tasks");
+  }
+  addTask()
   {
-    this.$store.dispatch('moveTask', task);
+    this.$store.dispatch("addTask", this.$store.state.newTask).then(() => {
+      this.$store.dispatch('tasks')
+    });
   }
 }
 </script>
