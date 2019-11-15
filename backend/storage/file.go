@@ -24,16 +24,15 @@ func Init() {
 }
 
 func getFileLocation() string {
-	home, _ := os.UserHomeDir()
-	return home + "/" + ".taskr.json"
+	return "taskr.json"
 }
 
 // GetBoard reads the file and returns the board
 func (storage *TaskStorage) GetBoard() *models.TaskBoard {
-	file, err := os.OpenFile(getFileLocation(), os.O_CREATE|os.O_RDONLY, 0666)
+	file, err := os.OpenFile(getFileLocation(), os.O_RDONLY, 0666)
 	defer file.Close()
 	if err != nil {
-		log.Fatal("Cannot create or open the file")
+		log.Fatal("Cannot open the file. Please run init command")
 	}
 	byteValue, _ := ioutil.ReadAll(file)
 	var board models.TaskBoard

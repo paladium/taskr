@@ -15,6 +15,15 @@ import (
 func ConfigureCommands(app *cli.App) {
 	app.Commands = []cli.Command{
 		{
+			Name:    "init",
+			Aliases: []string{"i"},
+			Usage:   "Inits the task board in the current directory",
+			Action: func(c *cli.Context) {
+				storage.GetStorage().SaveBoard(&models.TaskBoard{})
+				fmt.Println("Project succesfully created ✅")
+			},
+		},
+		{
 			Name:    "backlog",
 			Aliases: []string{"b"},
 			Usage:   "Add new task to a backlog",
@@ -37,15 +46,9 @@ func ConfigureCommands(app *cli.App) {
 			Name:    "tasks",
 			Aliases: []string{"t"},
 			Usage:   "List all the tasks",
-			Flags: []cli.Flag{
-				cli.StringFlag{Name: "section, s", Required: false},
-			},
 			Action: func(c *cli.Context) {
-				section := c.String("section")
-				if section == "" {
-					board := storage.GetStorage().GetBoard()
-					output.Board(board)
-				}
+				board := storage.GetStorage().GetBoard()
+				output.Board(board)
 			},
 		},
 		{
