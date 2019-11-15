@@ -74,6 +74,18 @@ This will output:
                                                  Work on projects         
 ```
 
+## UI
+
+Taskr comes with embedded mini-server and UI for managing the tasks visually. In order to view the UI run:
+
+```bash
+taskr ui
+```
+
+This will run the ui on the port :8080. Open the browser to view the tasks. You can do the same actions as in CLI.
+
+![UI of the taskr](assets/ui.png)
+
 ### Installing
 
 Download the newest release for your system from the **Releases** tab in GitHub.
