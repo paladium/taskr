@@ -15,6 +15,8 @@ build:
 	$(MAKE) build_windows
 	mv backend/taskr bin/
 	mv backend/taskr.exe bin/
+	# Remove the static folder
+	rm backend/static -rf && mkdir backend/static
 	@echo "Build completed, please run ./bin/taskr"
 	cd bin/ && ls -l --block-size=M
 

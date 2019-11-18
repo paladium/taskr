@@ -16,7 +16,7 @@ func Init(env string) {
 	box = packr.NewBox("../static")
 	config = viper.New()
 	config.SetConfigType("yaml")
-	configFile := box.Bytes("dev.yaml")
+	configFile, _ := box.Find("dev.yaml")
 	err := config.ReadConfig(bytes.NewBuffer(configFile))
 	if err != nil {
 		log.Fatal("Cannot load the server config")
